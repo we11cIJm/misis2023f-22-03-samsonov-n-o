@@ -14,17 +14,29 @@
 #include <vector>
 
 #ifndef PAT
-#define PAT "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"
+#define PAT "ghp_************************************" // insert your token here
 #endif
 
 namespace git {
 
+    /**
+     * \brief A class representing the Git library initialization and cleanup.
+     *
+     * This class initializes the Git library in its constructor and
+     * shuts it down in its destructor.
+     */
     class Git {
     public:
+        /**
+         * \brief Constructor to initialize the Git library.
+         */
         Git() {
             git_libgit2_init();
         }
 
+        /**
+         * \brief Destructor to shut down the Git library.
+         */
         ~Git() {
             git_libgit2_shutdown();
         }
@@ -65,10 +77,40 @@ namespace git {
 
     int Merge(const std::filesystem::path& local_path_to_repo);
 
+    /**
+     * \fn void CloneByFile(const std::filesystem::path& path_to_urls_file, const std::filesystem::path& local_path = ".")
+     * \brief Clone repositories listed in a file to a local directory.
+     *
+     * This function reads a file containing Git repository URLs and
+     * clones each repository to the specified local directory.
+     *
+     * \param path_to_urls_file The path to the file containing repository URLs.
+     * \param local_path The local directory where repositories will be cloned.
+     */
     void CloneByFile(const std::filesystem::path& path_to_urls_file, const std::filesystem::path& local_path = ".");
 
+    /**
+     * \fn void PullAll(const std::filesystem::path& path_to_all_repos, const std::vector<std::string>& urls)
+     * \brief Pull updates from multiple repositories.
+     *
+     * This function iterates through a list of Git repository URLs and pulls
+     * updates for each repository.
+     *
+     * \param path_to_all_repos The path to the file containing repository URLs.
+     * \param urls A vector of Git repository URLs.
+     */
     void PullAll(const std::filesystem::path& path_to_all_repos, const std::vector<std::string>& urls);
 
+    /**
+     * \fn void PushAll(const std::filesystem::path& path_to_all_repos, const std::vector<std::string>& urls)
+     * \brief Push updates to multiple repositories.
+     *
+     * This function iterates through a list of Git repository URLs and pushes
+     * updates for each repository.
+     *
+     * \param path_to_all_repos The path to the file containing repository URLs.
+     * \param urls A vector of Git repository URLs.
+     */
     void PushAll(const std::filesystem::path& path_to_all_repos, const std::vector<std::string>& urls);
 
     void PrintProgressBar(int32_t total_repos_count, int32_t current_repo_pos = 0);

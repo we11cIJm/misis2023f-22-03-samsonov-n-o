@@ -2,45 +2,35 @@
 
 using namespace git;
 
-const char* url = "https://github.com/we11cIJm/testrepo.git";
+#ifndef URL
+#define URL your_path_to_url
+#endif
+
+#ifndef WORK_DIR
+#define WORK_DIR your_local_path
+#endif
 
 int main(int argc, char** argv) {
     Git gitt;
 
-    std::filesystem::path filename = "/home/kolya/Desktop/code/BlindCodeReview/build/git/urls.txt";
-//    std::string filename = "../urls.txt";
-//    std::string clone = "--clone";
-//    std::string push = "--push";
-//    std::string push_l = "-p";
-//    std::string pull = "--pull";
-    CloneByFile(filename, std::filesystem::path("/home/kolya/Desktop/coderepos"));
-//    AddCommitPush("./testrepo", "try to push with deleted remotely files");
+    size_t numStrings = sizeof(argv) / sizeof(argv[0]);
 
-//    if (argc < 2) {
-//        std::cout << "Nothing is called\n";
-//        git_libgit2_shutdown();
-//        return 0;
-//    }
-//    if (argv[1] == push_l) {
-//        Add("testrepo");
-//        Commit("testrepo", "files for review");
-//        Push("testrepo");
-//    }
-//    else if (argv[1] == clone) {
-//        CloneByFile(filename, "/home/kolya/Desktop/coderepos");
-//    }
-//    else if (argv[1] == push) {
-//        AddCommitPush(filename, "files for review");
-//        std::cout << "Push is called\n";
-//    }
+#ifdef CLONE
+    CloneByFile(std::filesystem::path(URL), std::filesystem::path(WORK_DIR));
+#endif
 
-//    else if (argv[1] == pull) {
-//        PullByFile(filename);
-//        Pull(url, "./testrepo");
-//        std::cout << "Pull is called\n";
-//    } else {
-//        std::cout << "Other is called\n";
-//    }
+    // for our BlindCodeReview programm
+#ifdef PUSH
+    PushAll(std::filesystem::path(WORK_DIR), std::vector<std::string>({
+        "https://github.com/name1/repo_name1", "https://github.com/name2/repo_name2"
+    }));
+#endif
+
+#ifdef PULL
+    PullAll(std::filesystem::path(WORK_DIR), std::vector<std::string>({
+        "https://github.com/name1/repo_name1", "https://github.com/name2/repo_name2"
+    }));
+#endif
 
     return 0;
 }

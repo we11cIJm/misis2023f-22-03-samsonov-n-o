@@ -6,13 +6,18 @@ set(source_files
     git_push.cpp
     git_pull.cpp
     git_merge.cpp
+    git_fetch.cpp
+    help_stuff.cpp
 )
 
-add_library(${PROJECT_NAME} ${source_files} include/BlindCodeReview/git.hpp)
+set(header_files
+    include/BlindCodeReview/git.hpp
+)
 
-target_include_directories(${PROJECT_NAME} PUBLIC
+add_library(gitlib ${source_files} ${header_files})
+target_include_directories(gitlib PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
     ${LIBGIT2_INCLUDE_DIRS} # including libgit2 headers
 )
-install(TARGETS ${PROJECT_NAME})
+install(TARGETS gitlib)

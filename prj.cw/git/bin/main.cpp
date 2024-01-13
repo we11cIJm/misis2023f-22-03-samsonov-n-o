@@ -3,11 +3,11 @@
 using namespace git;
 
 #ifndef URL
-#define URL your_path_to_url
+#define URL "your_path_to_url"
 #endif
 
 #ifndef WORK_DIR
-#define WORK_DIR your_local_path
+#define WORK_DIR "your_local_path"
 #endif
 
 int main(int argc, char** argv) {

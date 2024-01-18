@@ -24,6 +24,12 @@ namespace git {
         return repositoryName;
     }
 
+    const char* PAT = "ghp_************************************";
+
+    void SetPAT(const char* value) {
+        PAT = value;
+    }
+
     // Function to acquire credentials
     int CredentialsCallback(
             git_cred** out,

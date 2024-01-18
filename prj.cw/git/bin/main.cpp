@@ -5,6 +5,7 @@ using namespace git;
 int main(int argc, char** argv) {
     Git gitt;
 
+    SetPAT("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");
     const char* clone = "--clone";
     const char* push = "--push";
     const char* pull = "--pull";

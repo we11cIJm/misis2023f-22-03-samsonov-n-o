@@ -14,7 +14,7 @@
 #include <vector>
 
 #ifndef PAT
-#define PAT "ghp_************************************" // insert your token here
+#define PAT "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" // insert your token here
 #endif
 
 namespace git {

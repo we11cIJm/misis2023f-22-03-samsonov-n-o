@@ -18,7 +18,7 @@ namespace git {
     // TODO: path_to_all_repos contain only folder instead of absolute path
     void PullAll(const std::filesystem::path& path_to_all_repos, const std::vector<std::string>& urls) {
         for (auto& url : urls) {
-            auto path = static_cast<std::filesystem::path>(path_to_all_repos / GetRepoName(url));
+            auto path = static_cast<std::filesystem::path>(path_to_all_repos / "repos" / GetRepoName(url));
             Pull(path);
         }
     }

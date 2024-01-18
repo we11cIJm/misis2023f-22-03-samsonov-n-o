@@ -1,9 +1,11 @@
 #include <iostream>
+#include <vector>
 
 int main(){
     int n;
     std::cin >> n;
-    int a[n] = {0};
+    //int a[n] = {0};
+    std::vector<int> a(n);
     int odd =0;
     int even = 0;
     int sum =0;

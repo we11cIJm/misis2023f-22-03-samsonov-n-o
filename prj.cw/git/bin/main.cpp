@@ -2,35 +2,56 @@
 
 using namespace git;
 
-#ifndef URL
-#define URL "your_path_to_url"
-#endif
-
-#ifndef WORK_DIR
-#define WORK_DIR "your_local_path"
-#endif
-
 int main(int argc, char** argv) {
     Git gitt;
 
-    size_t numStrings = sizeof(argv) / sizeof(argv[0]);
+    const char* clone = "--clone";
+    const char* push = "--push";
+    const char* pull = "--pull";
+    const char* dir = "--dir";
+    const char* url = "--url";
 
-#ifdef CLONE
-    CloneByFile(std::filesystem::path(URL), std::filesystem::path(WORK_DIR));
-#endif
+    std::vector<std::string> urls_vec;
+    std::filesystem::path path_to_url_file
+            = std::filesystem::exists(std::filesystem::path(std::filesystem::current_path() / "urls.txt")) ?
+            std::filesystem::path(std::filesystem::current_path() / "urls.txt") : "";
+    std::filesystem::path work_dir = std::filesystem::current_path();
 
-    // for our BlindCodeReview programm
-#ifdef PUSH
-    PushAll(std::filesystem::path(WORK_DIR), std::vector<std::string>({
-        "https://github.com/name1/repo_name1", "https://github.com/name2/repo_name2"
-    }));
-#endif
+    for (int i = 1; i < argc; ++i) {
+        if (strcmp(argv[i], dir) == 0) {
+            work_dir = argv[i+1];
+        }
+        if (strcmp(argv[i], url) == 0) {
+            path_to_url_file = argv[i+1];
 
-#ifdef PULL
-    PullAll(std::filesystem::path(WORK_DIR), std::vector<std::string>({
-        "https://github.com/name1/repo_name1", "https://github.com/name2/repo_name2"
-    }));
-#endif
+            std::ifstream input(path_to_url_file);
+            std::string u;
+            while (input >> u) {
+                urls_vec.push_back(u);
+            }
+        }
+        if (strcmp(argv[i], clone) == 0) {
+            if (std::filesystem::exists(path_to_url_file) && std::filesystem::exists(work_dir)) {
+                CloneByFile(path_to_url_file, work_dir);
+            } else {
+                std::cout << "Provide work directory and path to file with urls" << std::endl;
+            }
+        }
+        else if (strcmp(argv[i], push) == 0) {
+            if (std::filesystem::exists(work_dir) && std::filesystem::exists(path_to_url_file)) {
+                PushAll(work_dir, urls_vec);
+            } else {
+                std::cout << "Provide work directory and path to file with urls" << std::endl;
+            }
+        }
+        else if (strcmp(argv[i], pull) == 0) {
+            if (std::filesystem::exists(work_dir) && std::filesystem::exists(path_to_url_file)) {
+                PullAll(work_dir, urls_vec);
+            } else {
+                std::cout << "Provide work directory and path to file with urls" << std::endl;
+            }
+        }
+    }
 
     return 0;
 }
